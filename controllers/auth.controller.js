@@ -54,7 +54,7 @@ class AuthController {
     }
 
     // Check if User Already Exists
-    const userAlreadyExists = await UserService.fetchUserByEmail(email);
+    const userAlreadyExists = await UserService.fetchUserByEmail(email.toLowerCase());
     if (userAlreadyExists) {
       req.flash("message", {
         error: true,
@@ -93,7 +93,7 @@ class AuthController {
       }
       await ReferralService.newReferral({
         referralUserId: referrer.id,
-        userEmail: email,
+        userEmail: email.toLowerCase(),
       });
     }
 
@@ -102,7 +102,7 @@ class AuthController {
 
     // Create User
     const user = await UserService.newUser({
-      email,
+      email: email.toLowerCase(),
       fullName,
       username,
       password: hashedPassword,
